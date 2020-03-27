@@ -42,7 +42,10 @@ def createClientList():
         arrOfClients['client{0}'.format(clientNum)] = s
         s = client()
         value = ''
-
+    startNode = client()
+    EndNode = client()
+    arrOfClients['client{0}'.format('Start')] = startNode
+    arrOfClients['client{0}'.format('End')] = EndNode
     constructDAG(arrOfClients)
     return arrOfClients
 
@@ -52,18 +55,22 @@ def constructDAG(clients):
 
 
 def edgeHelper(listOfClients):
-    for i in range(1, len(listOfClients) + 1):
-        for j in range(1, len(listOfClients) + 1):
+    for i in range(1, len(listOfClients) - 1):
+        for j in range(1, len(listOfClients) - 1):
             if listOfClients['client{0}'.format(i)].getEnd() <= listOfClients['client{0}'.format(j)].getStart():
                 listOfClients['client{0}'.format(i)].addChild(listOfClients['client{0}'.format(j)], j)
                 listOfClients['client{0}'.format(j)].addParent(listOfClients['client{0}'.format(i)], i)
                 print('child of client' + str(i) + ' is client' + str(j))
 
-    for i in range(1, len(listOfClients) + 1):
+    for i in range(1, len(listOfClients) - 1):
         if listOfClients['client{0}'.format(i)].getParent() == {}:
-            listOfClients['client{0}'.format(i)].isStart = True
+            listOfClients['client{0}'.format('Start')].addChild(listOfClients['client{0}'.format(i)], i)
+            listOfClients['client{0}'.format(i)].addParent(listOfClients['client{0}'.format('Start')], 'Start')
         if listOfClients['client{0}'.format(i)].getChild() == {}:
-            listOfClients['client{0}'.format(i)].isEnd = True
+            listOfClients['client{0}'.format('End')].addParent(listOfClients['client{0}'.format(i)], i)
+            listOfClients['client{0}'.format(i)].addChild(listOfClients['client{0}'.format('End')], 'End')
 
-    print(listOfClients['client{0}'.format(5)].getChild())
+    print(listOfClients['client{0}'.format('End')].getParent())
+
+
 main()
