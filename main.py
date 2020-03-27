@@ -66,11 +66,12 @@ def edgeHelper(listOfClients):
         if listOfClients['client{0}'.format(i)].getParent() == {}:
             listOfClients['client{0}'.format('Start')].addChild(listOfClients['client{0}'.format(i)], i)
             listOfClients['client{0}'.format(i)].addParent(listOfClients['client{0}'.format('Start')], 'Start')
+
         if listOfClients['client{0}'.format(i)].getChild() == {}:
             listOfClients['client{0}'.format('End')].addParent(listOfClients['client{0}'.format(i)], i)
             listOfClients['client{0}'.format(i)].addChild(listOfClients['client{0}'.format('End')], 'End')
 
-    print(listOfClients['client{0}'.format('End')].getParent())
+    #print(listOfClients['client{0}'.format('End')].getParent())
 
 
 main()
