@@ -2,12 +2,18 @@ from sqlalchemy.sql.elements import Null
 
 
 class client:
+    childCount = 0
+    parentCount = 0
 
     def __init__(self):
-        self.parent = None
         self.start = 0
         self.end = 0
         self.pay = 0
+        self.children = {}
+        self.parents = {}
+        self.isStart = False
+        self.isEnd = False
+
 
     def setStart(self, startDate):
         self.start = startDate
@@ -18,8 +24,11 @@ class client:
     def setPay(self, newPay):
         self.pay = newPay
 
-    def setParent(self, newParent):
-        self.parent = newParent
+    def addParent(self, newParent, client_number):
+        self.parents['client{0}'.format(client_number)] = newParent
+
+    def addChild(self, newChild, client_number):
+        self.children['client{0}'.format(client_number)] = newChild
 
     def getStart(self):
         return self.start
@@ -31,4 +40,7 @@ class client:
         return self.pay
 
     def getParent(self):
-        return self.parent
+        return self.parents
+
+    def getChild(self):
+        return self.children
