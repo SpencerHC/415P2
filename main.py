@@ -6,9 +6,11 @@ def main():
     print(inputFile.read())
     list = createClientList()
     print(list)
-    constructDAG(list)
+    #constructDAG(list)
     # print(list['client1'].getStart())
     # example above on how to access the attributes in client
+
+    OptimalPath(list)
 
 
 def createClientList():
@@ -39,13 +41,15 @@ def createClientList():
                 value += ch
         count = 1
         clientNum += 1
-        arrOfClients['client{0}'.format(clientNum)] = s
+        arrOfClients[clientNum] = s
         s = client()
         value = ''
     startNode = client()
+    startNode.setPay(0)
     EndNode = client()
-    arrOfClients['client{0}'.format('Start')] = startNode
-    arrOfClients['client{0}'.format('End')] = EndNode
+    EndNode.setPay(0)
+    arrOfClients[0] = startNode
+    arrOfClients[len(arrOfClients)] = EndNode
     constructDAG(arrOfClients)
     return arrOfClients
 
@@ -57,21 +61,60 @@ def constructDAG(clients):
 def edgeHelper(listOfClients):
     for i in range(1, len(listOfClients) - 1):
         for j in range(1, len(listOfClients) - 1):
-            if listOfClients['client{0}'.format(i)].getEnd() <= listOfClients['client{0}'.format(j)].getStart():
-                listOfClients['client{0}'.format(i)].addChild(listOfClients['client{0}'.format(j)], j)
-                listOfClients['client{0}'.format(j)].addParent(listOfClients['client{0}'.format(i)], i)
+            if listOfClients[i].getEnd() <= listOfClients[j].getStart():
+                listOfClients[i].addChild(listOfClients[j], j)
+                listOfClients[j].addParent([i], i)
                 print('child of client' + str(i) + ' is client' + str(j))
 
     for i in range(1, len(listOfClients) - 1):
-        if listOfClients['client{0}'.format(i)].getParent() == {}:
-            listOfClients['client{0}'.format('Start')].addChild(listOfClients['client{0}'.format(i)], i)
-            listOfClients['client{0}'.format(i)].addParent(listOfClients['client{0}'.format('Start')], 'Start')
+        if listOfClients[i].getParent() == {}:
+            listOfClients[0].addChild(listOfClients[i], i)
+            listOfClients[i].addParent(listOfClients[0], 0)
 
-        if listOfClients['client{0}'.format(i)].getChild() == {}:
-            listOfClients['client{0}'.format('End')].addParent(listOfClients['client{0}'.format(i)], i)
-            listOfClients['client{0}'.format(i)].addChild(listOfClients['client{0}'.format('End')], 'End')
+        if listOfClients[i].getChild() == {}:
+            listOfClients[len(listOfClients)-1].addParent(listOfClients[i], i)
+            listOfClients[i].addChild(listOfClients[len(listOfClients)-1],len(listOfClients)-1)
+    print(len(listOfClients))
+
+
 
     #print(listOfClients['client{0}'.format('End')].getParent())
+
+
+def OptimalPath(list):
+    foundNodes = []
+    for i in range (len(list)):
+        foundNodes.append([None,0])
+
+
+    for i in range(len(list)-1,-1,-1):
+        max = 0
+        highestFound = None
+        for item in list[i].getChild().items():
+            print(item[0])
+            if foundNodes[item[0]][1] >= max:
+
+                max = foundNodes[item[0]][1]
+                highestFound = item[0]
+        print(type(i))
+        foundNodes[int(i)][0] = highestFound
+        foundNodes[int(i)][1] = max + list[i].getPay()
+    
+    print(foundNodes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 main()

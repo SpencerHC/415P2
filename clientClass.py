@@ -25,10 +25,11 @@ class client:
         self.pay = newPay
 
     def addParent(self, newParent, client_number):
-        self.parents['client{0}'.format(client_number)] = newParent
+        self.parents[client_number] = newParent
+
 
     def addChild(self, newChild, client_number):
-        self.children['client{0}'.format(client_number)] = newChild
+        self.children[client_number] = newChild
 
     def getStart(self):
         return self.start
