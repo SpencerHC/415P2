@@ -6,7 +6,7 @@ def main():
 
     list = createClientList()
 
-    #constructDAG(list)
+    # constructDAG(list)
     # print(list['client1'].getStart())
     # example above on how to access the attributes in client
 
@@ -28,9 +28,6 @@ def main():
     print("Clients contributing to this optimal revene: " + path)
 
 
-
-
-
 def createClientList():
     # creates a list of clients
     clientNum = 0
@@ -50,13 +47,12 @@ def createClientList():
                     s.setEnd(int(value))
                     count += 1
                     value = ''
-                elif count == 3:
-                    s.setPay(int(value))
-                    count += 1
-                    value = ''
-
             else:
                 value += ch
+        if count == 3:
+            s.setPay(int(value))
+            count += 1
+            value = ''
         count = 1
         clientNum += 1
         arrOfClients[clientNum] = s
@@ -83,35 +79,27 @@ def edgeHelper(listOfClients):
                 listOfClients[i].addChild(listOfClients[j], j)
                 listOfClients[j].addParent([i], i)
 
-
     for i in range(1, len(listOfClients) - 1):
         if listOfClients[i].getParent() == {}:
             listOfClients[0].addChild(listOfClients[i], i)
             listOfClients[i].addParent(listOfClients[0], 0)
 
         if listOfClients[i].getChild() == {}:
-            listOfClients[len(listOfClients)-1].addParent(listOfClients[i], i)
-            listOfClients[i].addChild(listOfClients[len(listOfClients)-1],len(listOfClients)-1)
-
-
-
-
-    #print(listOfClients['client{0}'.format('End')].getParent())
+            listOfClients[len(listOfClients) - 1].addParent(listOfClients[i], i)
+            listOfClients[i].addChild(listOfClients[len(listOfClients) - 1], len(listOfClients) - 1)
 
 
 def OptimalPath(list):
     foundNodes = []
-    for i in range (len(list)):
-        foundNodes.append([None,0])
+    for i in range(len(list)):
+        foundNodes.append([None, 0])
 
-
-    for i in range(len(list)-1,-1,-1):
+    for i in range(len(list) - 1, -1, -1):
         max = 0
         highestFound = None
         for item in list[i].getChild().items():
 
             if foundNodes[item[0]][1] >= max:
-
                 max = foundNodes[item[0]][1]
                 highestFound = item[0]
 
