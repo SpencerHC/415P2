@@ -2,13 +2,12 @@ from clientClass import client
 
 
 def main():
-    inputFile = open("input.txt", 'r')
 
-    list = createClientList()
+    filename = input("Enter the file to read data:")
 
-    # constructDAG(list)
-    # print(list['client1'].getStart())
-    # example above on how to access the attributes in client
+    list = createClientList(filename)
+
+
 
     optimal = OptimalPath(list)
 
@@ -28,12 +27,12 @@ def main():
     print("Clients contributing to this optimal revene: " + path)
 
 
-def createClientList():
+def createClientList(filename):
     # creates a list of clients
     clientNum = 0
     count = 1
     value = ''
-    inputFile = open("input.txt", 'r')
+    inputFile = open(filename, 'r')
     arrOfClients = {}
     s = client()
     for line in inputFile:
@@ -104,7 +103,6 @@ def OptimalPath(list):
                 highestFound = item[0]
 
         foundNodes[int(i)][0] = highestFound
-        print(list[i].getPay())
         foundNodes[int(i)][1] = max + list[i].getPay()
 
     return foundNodes
