@@ -3,14 +3,32 @@ from clientClass import client
 
 def main():
     inputFile = open("input.txt", 'r')
-    print(inputFile.read())
+
     list = createClientList()
-    print(list)
+
     #constructDAG(list)
     # print(list['client1'].getStart())
     # example above on how to access the attributes in client
 
-    OptimalPath(list)
+    optimal = OptimalPath(list)
+
+    print("there are " + str(len(list) - 2) + " clients in this file")
+
+    print("Optimal revenue earned is " + str(optimal[0][1]))
+
+    print(optimal)
+
+    path = ""
+    next = optimal[0][0]
+    while next != len(optimal) - 1:
+        path = path + ", " + str(next)
+        next = optimal[next][0]
+
+    path = path[2:]
+    print("Clients contributing to this optimal revene: " + path)
+
+
+
 
 
 def createClientList():
@@ -64,7 +82,7 @@ def edgeHelper(listOfClients):
             if listOfClients[i].getEnd() <= listOfClients[j].getStart():
                 listOfClients[i].addChild(listOfClients[j], j)
                 listOfClients[j].addParent([i], i)
-                print('child of client' + str(i) + ' is client' + str(j))
+
 
     for i in range(1, len(listOfClients) - 1):
         if listOfClients[i].getParent() == {}:
@@ -74,7 +92,7 @@ def edgeHelper(listOfClients):
         if listOfClients[i].getChild() == {}:
             listOfClients[len(listOfClients)-1].addParent(listOfClients[i], i)
             listOfClients[i].addChild(listOfClients[len(listOfClients)-1],len(listOfClients)-1)
-    print(len(listOfClients))
+
 
 
 
@@ -91,30 +109,17 @@ def OptimalPath(list):
         max = 0
         highestFound = None
         for item in list[i].getChild().items():
-            print(item[0])
+
             if foundNodes[item[0]][1] >= max:
 
                 max = foundNodes[item[0]][1]
                 highestFound = item[0]
-        print(type(i))
+
         foundNodes[int(i)][0] = highestFound
+        print(list[i].getPay())
         foundNodes[int(i)][1] = max + list[i].getPay()
-    
-    print(foundNodes)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return foundNodes
 
 
 main()
