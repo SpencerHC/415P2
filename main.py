@@ -1,4 +1,5 @@
 from clientClass import client
+import copy
 
 
 def main():
@@ -7,7 +8,13 @@ def main():
 
     list = createClientList(filename)
 
+    for i in range(len(list)):
+        print(list[i].getName())
 
+    list = topSort(list)
+
+    for i in range(len(list)):
+        print(list[i].getName())
 
     optimal = OptimalPath(list)
 
@@ -54,12 +61,15 @@ def createClientList(filename):
             value = ''
         count = 1
         clientNum += 1
+        s.setName(str(clientNum))
         arrOfClients[clientNum] = s
         s = client()
         value = ''
     startNode = client()
     startNode.setPay(0)
+    startNode.setName(str(0))
     EndNode = client()
+    EndNode.setName(str(len(arrOfClients) + 1))
     EndNode.setPay(0)
     arrOfClients[0] = startNode
     arrOfClients[len(arrOfClients)] = EndNode
@@ -88,6 +98,10 @@ def edgeHelper(listOfClients):
             listOfClients[i].addChild(listOfClients[len(listOfClients) - 1], len(listOfClients) - 1)
 
 
+
+
+
+
 def OptimalPath(list):
     foundNodes = []
     for i in range(len(list)):
@@ -100,6 +114,8 @@ def OptimalPath(list):
 
             if foundNodes[item[0]][1] >= max:
                 max = foundNodes[item[0]][1]
+
+                
                 highestFound = item[0]
 
         foundNodes[int(i)][0] = highestFound
@@ -107,5 +123,27 @@ def OptimalPath(list):
 
     return foundNodes
 
+def topSort(list):
+    topSortedList = {}
+    copyList = copy.deepcopy(list)
+    copyList2 = list
+    listOfEdgeCount = []
+    count = 0
+    for i in range(len(copyList2)):
+        listOfEdgeCount.append(len(copyList[i].getParent()))
+    j = 0
+    pos = 0
+    while j != len(listOfEdgeCount):
+        if listOfEdgeCount[j] == 0:
+            print("adding list " + str(j) + "to position" + str(pos))
+            topSortedList[pos] = copyList2[j]
+            listOfEdgeCount[j] = -1
+
+            for key in copyList[j].getChild():
+                listOfEdgeCount[key] = listOfEdgeCount[key] - 1
+            j = 0
+            pos += 1
+        j += 1
+    return topSortedList
 
 main()
