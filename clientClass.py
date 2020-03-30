@@ -53,3 +53,10 @@ class client:
 
     def delParent(self, index):
         del self.parents[index]
+
+    def reearrangeChildrenKeys(self, keyConversions):
+        newMap = {}
+        for conversion in keyConversions:
+            if conversion[1] in self.children:
+                newMap[conversion[0]] = self.children[conversion[1]]
+        self.children = newMap

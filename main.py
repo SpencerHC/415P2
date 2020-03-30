@@ -112,10 +112,11 @@ def OptimalPath(list):
         highestFound = None
         for item in list[i].getChild().items():
 
+
             if foundNodes[item[0]][1] >= max:
                 max = foundNodes[item[0]][1]
 
-                
+
                 highestFound = item[0]
 
         foundNodes[int(i)][0] = highestFound
@@ -144,6 +145,26 @@ def topSort(list):
             j = 0
             pos += 1
         j += 1
+
+    changeChildrenNames(topSortedList)
     return topSortedList
+
+def changeChildrenNames(list):
+
+    conversionList = []
+
+    for item in list.items():
+        conversionList.append([item[0],int(item[1].getName())])
+
+
+
+
+    print(conversionList)
+
+    for node in list.values():
+        node.reearrangeChildrenKeys(conversionList)
+
+
+
 
 main()
