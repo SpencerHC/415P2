@@ -2,13 +2,12 @@ from clientClass import client
 
 
 def main():
-    inputFile = open("input.txt", 'r')
 
-    list = createClientList()
-    list = topSort(list)
-    # constructDAG(list)
-    # print(list['client1'].getStart())
-    # example above on how to access the attributes in client
+    filename = input("Enter the file to read data:")
+
+    list = createClientList(filename)
+
+
 
     optimal = OptimalPath(list)
 
@@ -28,12 +27,12 @@ def main():
     print("Clients contributing to this optimal revene: " + path)
 
 
-def createClientList():
+def createClientList(filename):
     # creates a list of clients
     clientNum = 0
     count = 1
     value = ''
-    inputFile = open("input.txt", 'r')
+    inputFile = open(filename, 'r')
     arrOfClients = {}
     s = client()
     for line in inputFile:
@@ -55,7 +54,6 @@ def createClientList():
             value = ''
         count = 1
         clientNum += 1
-        s.setName((clientNum))
         arrOfClients[clientNum] = s
         s = client()
         value = ''
@@ -89,30 +87,6 @@ def edgeHelper(listOfClients):
             listOfClients[len(listOfClients) - 1].addParent(listOfClients[i], i)
             listOfClients[i].addChild(listOfClients[len(listOfClients) - 1], len(listOfClients) - 1)
 
-def topSort(list):
-    topSortedList = {}
-    copyList = list.copy()
-    copyList2 = list
-    listOfEdgeCount = []
-    count = 0
-    for i in range(len(copyList2)):
-        listOfEdgeCount.append(len(copyList[i].getParent()))
-    j = 0
-    while j != len(listOfEdgeCount):
-        if listOfEdgeCount[j] == 0:
-            topSortedList[j] = copyList2[j]
-            listOfEdgeCount[j] = -1
-
-            for key in copyList[j].getChild():
-                listOfEdgeCount[key] = listOfEdgeCount[key]-1
-            j = 0
-        j += 1
-    return topSortedList
-
-
-
-
-
 
 def OptimalPath(list):
     foundNodes = []
@@ -129,7 +103,6 @@ def OptimalPath(list):
                 highestFound = item[0]
 
         foundNodes[int(i)][0] = highestFound
-        print(list[i].getPay())
         foundNodes[int(i)][1] = max + list[i].getPay()
 
     return foundNodes
