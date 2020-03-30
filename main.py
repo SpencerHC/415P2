@@ -5,7 +5,7 @@ def main():
     inputFile = open("input.txt", 'r')
 
     list = createClientList()
-
+    list = topSort(list)
     # constructDAG(list)
     # print(list['client1'].getStart())
     # example above on how to access the attributes in client
@@ -55,6 +55,7 @@ def createClientList():
             value = ''
         count = 1
         clientNum += 1
+        s.setName((clientNum))
         arrOfClients[clientNum] = s
         s = client()
         value = ''
@@ -87,6 +88,30 @@ def edgeHelper(listOfClients):
         if listOfClients[i].getChild() == {}:
             listOfClients[len(listOfClients) - 1].addParent(listOfClients[i], i)
             listOfClients[i].addChild(listOfClients[len(listOfClients) - 1], len(listOfClients) - 1)
+
+def topSort(list):
+    topSortedList = {}
+    copyList = list.copy()
+    copyList2 = list
+    listOfEdgeCount = []
+    count = 0
+    for i in range(len(copyList2)):
+        listOfEdgeCount.append(len(copyList[i].getParent()))
+    j = 0
+    while j != len(listOfEdgeCount):
+        if listOfEdgeCount[j] == 0:
+            topSortedList[j] = copyList2[j]
+            listOfEdgeCount[j] = -1
+
+            for key in copyList[j].getChild():
+                listOfEdgeCount[key] = listOfEdgeCount[key]-1
+            j = 0
+        j += 1
+    return topSortedList
+
+
+
+
 
 
 def OptimalPath(list):

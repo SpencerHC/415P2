@@ -6,6 +6,7 @@ class client:
     parentCount = 0
 
     def __init__(self):
+        self.name = ''
         self.start = 0
         self.end = 0
         self.pay = 0
@@ -13,7 +14,6 @@ class client:
         self.parents = {}
         self.isStart = False
         self.isEnd = False
-
 
     def setStart(self, startDate):
         self.start = startDate
@@ -26,7 +26,6 @@ class client:
 
     def addParent(self, newParent, client_number):
         self.parents[client_number] = newParent
-
 
     def addChild(self, newChild, client_number):
         self.children[client_number] = newChild
@@ -45,3 +44,12 @@ class client:
 
     def getChild(self):
         return self.children
+
+    def setName(self, newName):
+        self.name = newName
+
+    def getName(self):
+        return self.name
+
+    def delParent(self, index):
+        del self.parents[index]
