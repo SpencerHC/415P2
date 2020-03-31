@@ -22,19 +22,19 @@ def main():
     
 
 
-    path = ""
+    path = ''
     next = optimal[0][0]
     while next != len(optimal) - 1:
         path = path + ", " + str(next)
         next = optimal[next][0]
 
+    print("Optimal revenue earned is " + str(optimal[0][1]))
+    print("\nClients contributing to this optimal revenue: " + path)
 
-
-    outputFile = 'output' + dataNumber + '.txt'
+    outputFile = 'outdata' + dataNumber + '.txt'
     output = open(outputFile, "w")
     output.write("Optimal revenue earned is " + str(optimal[0][1]))
     output.write("\nClients contributing to this optimal revenue: " + path)
-    print('\nCheck out'  + filename  + ' for results.')
 
 def createClientList(filename):
     # creates a list of clients
