@@ -1,2 +1,0 @@
-Optimal revenue earned is 1170
-Clients contributing to this optimal revenue: 6, 10

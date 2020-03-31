@@ -1,5 +1,6 @@
 from clientClass import client
 import copy
+import time
 
 
 def main():
@@ -7,9 +8,19 @@ def main():
     filename = input("Enter the file to read data: ")
     dataNumber = filename[4]
 
+
     list = createClientList(filename)
+
+
+
     topSorted = topSort(list)
-    optimal = OptimalPath(list)
+
+
+
+
+    optimal = OptimalPath(topSorted)
+    
+
 
     path = ""
     next = optimal[0][0]
@@ -17,7 +28,7 @@ def main():
         path = path + ", " + str(next)
         next = optimal[next][0]
 
-    path = path[2:]
+
 
     outputFile = 'output' + dataNumber + '.txt'
     output = open(outputFile, "w")
