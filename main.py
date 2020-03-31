@@ -5,6 +5,8 @@ import copy
 def main():
 
     filename = input("Enter the file to read data: ")
+    dataNumber = filename[4]
+
     list = createClientList(filename)
     topSorted = topSort(list)
     optimal = OptimalPath(list)
@@ -17,11 +19,11 @@ def main():
 
     path = path[2:]
 
-    outputFile = 'output.txt'
+    outputFile = 'output' + dataNumber + '.txt'
     output = open(outputFile, "w")
     output.write("Optimal revenue earned is " + str(optimal[0][1]))
     output.write("\nClients contributing to this optimal revenue: " + path)
-
+    print('\nCheck '  + outputFile + ' for results.')
 
 def createClientList(filename):
     # creates a list of clients
@@ -145,7 +147,7 @@ def changeChildrenNames(list):
 
 
 
-    print(conversionList)
+
 
     for node in list.values():
         node.reearrangeChildrenKeys(conversionList)
