@@ -8,18 +8,18 @@ def main():
     filename = input("Enter the file to read data: ")
     dataNumber = filename[4]
 
-
+    start_time = time.time()
     list = createClientList(filename)
+    print("CreateClientList: --- %s seconds ---" % (time.time() - start_time))
 
-
-
+    start_time = time.time()
     topSorted = topSort(list)
+    print("topSort: --- %s seconds ---" % (time.time() - start_time))
 
 
-
-
+    start_time = time.time()
     optimal = OptimalPath(topSorted)
-    
+    print("OptimalPath: --- %s seconds ---" % (time.time() - start_time))
 
 
     path = ""
@@ -28,7 +28,7 @@ def main():
         path = path + ", " + str(next)
         next = optimal[next][0]
 
-
+    path = path[2:]
 
     outputFile = 'output' + dataNumber + '.txt'
     output = open(outputFile, "w")
