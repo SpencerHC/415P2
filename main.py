@@ -23,7 +23,7 @@ def main():
     output = open(outputFile, "w")
     output.write("Optimal revenue earned is " + str(optimal[0][1]))
     output.write("\nClients contributing to this optimal revenue: " + path)
-    print('\nCheck '  + outputFile + ' for results.')
+    print('\nCheck out'  + filename  + ' for results.')
 
 def createClientList(filename):
     # creates a list of clients
