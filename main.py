@@ -4,25 +4,10 @@ import copy
 
 def main():
 
-    filename = input("Enter the file to read data:")
-
+    filename = input("Enter the file to read data: ")
     list = createClientList(filename)
-
-    for i in range(len(list)):
-        print(list[i].getName())
-
-    list = topSort(list)
-
-    for i in range(len(list)):
-        print(list[i].getName())
-
+    topSorted = topSort(list)
     optimal = OptimalPath(list)
-
-    print("there are " + str(len(list) - 2) + " clients in this file")
-
-    print("Optimal revenue earned is " + str(optimal[0][1]))
-
-    print(optimal)
 
     path = ""
     next = optimal[0][0]
@@ -31,7 +16,11 @@ def main():
         next = optimal[next][0]
 
     path = path[2:]
-    print("Clients contributing to this optimal revene: " + path)
+
+    outputFile = 'output.txt'
+    output = open(outputFile, "w")
+    output.write("Optimal revenue earned is " + str(optimal[0][1]))
+    output.write("\nClients contributing to this optimal revenue: " + path)
 
 
 def createClientList(filename):
@@ -129,17 +118,14 @@ def topSort(list):
     copyList = copy.deepcopy(list)
     copyList2 = list
     listOfEdgeCount = []
-    count = 0
     for i in range(len(copyList2)):
         listOfEdgeCount.append(len(copyList[i].getParent()))
     j = 0
     pos = 0
     while j != len(listOfEdgeCount):
         if listOfEdgeCount[j] == 0:
-            print("adding list " + str(j) + "to position" + str(pos))
             topSortedList[pos] = copyList2[j]
             listOfEdgeCount[j] = -1
-
             for key in copyList[j].getChild():
                 listOfEdgeCount[key] = listOfEdgeCount[key] - 1
             j = 0
