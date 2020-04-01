@@ -6,7 +6,6 @@ import time
 def main():
 
     filename = input("Enter the file to read data: ")
-    dataNumber = filename[4]
 
 
     list = createClientList(filename)
@@ -19,13 +18,12 @@ def main():
 
 
     optimal = OptimalPath(topSorted)
-    
 
 
     path = ''
     next = optimal[0][0]
     while next != len(optimal) - 1:
-        path = path + ", " + str(next)
+        path = path + ", " + str(topSorted[next].getName())
         next = optimal[next][0]
 
     path = path[2:]
@@ -33,10 +31,10 @@ def main():
     print("Optimal revenue earned is " + str(optimal[0][1]))
     print("\nClients contributing to this optimal revenue: " + path)
 
-    outputFile = 'outdata' + dataNumber + '.txt'
 
 
-    outputFile = 'output' + dataNumber + '.txt'
+
+    outputFile = 'out' + filename
     output = open(outputFile, "w")
     output.write("Optimal revenue earned is " + str(optimal[0][1]))
     output.write("\nClients contributing to this optimal revenue: " + path)
